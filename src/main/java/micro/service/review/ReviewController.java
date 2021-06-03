@@ -20,14 +20,14 @@ public class ReviewController {
     @Value("${api.key}")
     private String apiKey;
 
-    Tmdb tmdb = new Tmdb(apiKey);
-    MoviesService moviesService = tmdb.moviesService();
-
     private static final Logger log = Logger.getLogger(String.valueOf(ReviewController.class));
 
     @GetMapping("/{movieId}")
     public ResponseEntity<ReviewResultsPage> getReviews(@PathVariable Integer movieId) throws Exception {
+        Tmdb tmdb = new Tmdb(apiKey);
+        MoviesService moviesService = tmdb.moviesService();
         log.info("get review for  - " + movieId);
+        System.out.println("APIKEY ----------------------------------- " + apiKey);
         Response<ReviewResultsPage> response = moviesService.reviews(movieId, 1, "").execute();
         if (response.isSuccessful()) {
             ReviewResultsPage reviews = response.body();
